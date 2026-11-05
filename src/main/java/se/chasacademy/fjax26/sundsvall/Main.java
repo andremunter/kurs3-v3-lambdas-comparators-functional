@@ -119,5 +119,29 @@ public class Main {
                     printAuditLog.accept(item);
                 });
 
+        IO.println("""
+              
+              ======== ========== ========
+              ======== Uppgift 5: ========
+              ======== ========== ========
+              """);
+
+        DiscountPolicy<Item> volumeDiscount = (item, price) -> item.getPrice() > 1000 ? price * 0.9 : price;
+        DiscountPolicy<Item> gardenDiscount = new CategoryDiscountPolicy();
+        DiscountPolicy<Item> combinedDiscount = volumeDiscount.combine(gardenDiscount);
+
+        items.forEach(item -> IO.println(String.format("""
+                        %s | Discounted Price: %.2f""",
+                item, combinedDiscount.applyDiscount(item, item.getPrice()))
+        ));
+
+        DiscountPolicy<Item> toolDiscount = new CategoryDiscountPolicy("Verktyg", 0.50);
+        items.forEach(item -> IO.println(String.format("""
+                        %s | Discounted Price: %.2f""",
+                item, toolDiscount.applyDiscount(item, item.getPrice()))
+        ));
+
+
+
     }
 }
