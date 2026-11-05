@@ -2,6 +2,10 @@ package se.chasacademy.fjax26.sundsvall;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class Main {
     static void main() {
@@ -76,6 +80,44 @@ public class Main {
                 """);
         items.sort(new ItemPriorityComparator());
         items.forEach(IO::println);
+
+        IO.println("""
+              
+              ======== ========== ========
+              ======== Uppgift 4: ========
+              ======== ========== ========
+              """);
+
+        Predicate<Item> isAffordableAndInStock = item -> item.isInStock() && item.getPrice() < 1000;
+        Function<Item, String> itemLabelFormatter = item -> String.format(
+                "NIVÅ [%s] - %s (%.1f kr)",
+                item.getCategory(), item.getName(), item.getPrice()
+        );
+        Consumer<Item> printAuditLog = item -> IO.println("[AUDIT] " + item.getName());
+        Supplier<Item> defaultItemSupplier = () -> new Item("DEFAULT", "Standardverktyg", "Allmänt", 0.0, true, 5.0);
+
+        IO.println("\n[isAffordableAndInStock]\n");
+        items.forEach(item -> IO.println(isAffordableAndInStock.test(item) ? (item.getName() + " is in stock") : (item.getName() + " is NOT in stock")));
+
+        IO.println("\n[itemLabelFormatter]\n");
+        items.forEach(item -> IO.println(itemLabelFormatter.apply(item)));
+
+        IO.println("\n[printAuditLog]\n");
+        items.forEach(printAuditLog);
+
+        IO.println("\n[defaultItem]\n");
+        Item defaultItem = defaultItemSupplier.get();
+        IO.println(defaultItem);
+
+        IO.println("\n[combinedPredicate]\n");
+        Predicate<Item> hasHighRating = item -> item.getRating() > 4.5;
+        Predicate<Item> premiumBudgetChoice = isAffordableAndInStock.and(hasHighRating);
+        items.stream()
+                .filter(premiumBudgetChoice)
+                .forEach(item -> {
+                    IO.println("Matches: " + itemLabelFormatter.apply(item) + " | Betyg: " + item.getRating());
+                    printAuditLog.accept(item);
+                });
 
     }
 }
