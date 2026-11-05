@@ -57,7 +57,13 @@ public class Main {
                 Sort by:
                 1. Category(alphabetically) | 2. Price(descending) | 3. Name(alphabetically)
                 """);
-        items.sort(new ItemComparator());
+
+        Comparator<Item> sorted = Comparator
+                .comparing(Item::getCategory, Comparator.nullsLast(Comparator.naturalOrder()))
+                .thenComparing((i1, i2) -> Double.compare(i2.getPrice(), i1.getPrice()))
+                .thenComparing(Item::getName, Comparator.nullsLast(Comparator.naturalOrder()));
+
+        items.sort(sorted);
         items.forEach(IO::println);
 
         IO.println("""
@@ -67,6 +73,21 @@ public class Main {
               ======== ========== ========
               
               """);
+
+        // Komplex affärsregel för sortering i e-butiken:
+        items.sort((a, b) -> {
+            // 1. Artiklar i lager ska alltid visas före artiklar som är slut i lager
+            if (a.isInStock() != b.isInStock()) {
+                return a.isInStock() ? -1 : 1;
+            }
+            // 2. Högsta betyg först (rating >= 4.5 har prio)
+            int ratingCompare = Double.compare(b.getRating(), a.getRating());
+            if (ratingCompare != 0) {
+                return ratingCompare;
+            }
+            // 3. Lägst pris först
+            return Double.compare(a.getPrice(), b.getPrice());
+        });
 
     }
 }
