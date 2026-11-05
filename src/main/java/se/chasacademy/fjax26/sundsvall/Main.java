@@ -10,7 +10,11 @@ public class Main {
 
         IO.println("""
               
-                """);
+              ======== ========== ========
+              ======== Uppgift 1: ========
+              ======== ========== ========
+              
+              """);
         IO.println("Items raw: ");
         items.forEach(IO::println);
 
@@ -44,8 +48,19 @@ public class Main {
 
         IO.println("""
               
+              ======== ========== ========
+              ======== Uppgift 2: ========
+              ======== ========== ========
+              
+              """);
+        IO.println("""
+                Sort by:
+                1. Category(alphabetically) | 2. Price(descending) | 3. Name(Alphabetically)
                 """);
-
+        items.sort(Comparator.comparing(Item::getCategory, Comparator.nullsLast(String::compareTo))
+                .thenComparingDouble(Item::getPrice).reversed()
+                .thenComparing(Item::getName, Comparator.nullsLast(String::compareTo)));
+        items.forEach(IO::println);
 
     }
 }
