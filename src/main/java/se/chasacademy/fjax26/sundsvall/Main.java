@@ -141,7 +141,27 @@ public class Main {
                 item, toolDiscount.applyDiscount(item, item.getPrice()))
         ));
 
+        IO.println("""
+              
+              ======== ========== ========
+              ======== Uppgift 5: ========
+              ======== ========== ========
+              """);
 
+        Function<Item, String> nameToUpper = item -> new Item(
+                item.getId(),
+                item.getName().toUpperCase(),
+                item.getCategory(),
+                item.getPrice(),
+                item.isInStock(),
+                item.getRating()
+        ).toString();
+        Consumer<String> printItem = IO::println;
+        DataPipeline<Item, String> pipeline = new DataPipeline<>();
+        pipeline
+                .filter(Item::isInStock)
+                .map(nameToUpper)
+                .execute(items, printItem);
 
     }
 }
