@@ -74,20 +74,6 @@ public class Main {
               
               """);
 
-        // Komplex affärsregel för sortering i e-butiken:
-        items.sort((a, b) -> {
-            // 1. Artiklar i lager ska alltid visas före artiklar som är slut i lager
-            if (a.isInStock() != b.isInStock()) {
-                return a.isInStock() ? -1 : 1;
-            }
-            // 2. Högsta betyg först (rating >= 4.5 har prio)
-            int ratingCompare = Double.compare(b.getRating(), a.getRating());
-            if (ratingCompare != 0) {
-                return ratingCompare;
-            }
-            // 3. Lägst pris först
-            return Double.compare(a.getPrice(), b.getPrice());
-        });
 
     }
 }
