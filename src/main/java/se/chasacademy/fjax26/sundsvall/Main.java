@@ -55,12 +55,18 @@ public class Main {
               """);
         IO.println("""
                 Sort by:
-                1. Category(alphabetically) | 2. Price(descending) | 3. Name(Alphabetically)
+                1. Category(alphabetically) | 2. Price(descending) | 3. Name(alphabetically)
                 """);
-        items.sort(Comparator.comparing(Item::getCategory, Comparator.nullsLast(String::compareTo))
-                .thenComparingDouble(Item::getPrice).reversed()
-                .thenComparing(Item::getName, Comparator.nullsLast(String::compareTo)));
+        items.sort(new ItemComparator());
         items.forEach(IO::println);
+
+        IO.println("""
+              
+              ======== ========== ========
+              ======== Uppgift 3: ========
+              ======== ========== ========
+              
+              """);
 
     }
 }
