@@ -13,7 +13,6 @@ public class Main {
               ======== ========== ========
               ======== Uppgift 1: ========
               ======== ========== ========
-              
               """);
         IO.println("Items raw: ");
         items.forEach(IO::println);
@@ -51,7 +50,6 @@ public class Main {
               ======== ========== ========
               ======== Uppgift 2: ========
               ======== ========== ========
-              
               """);
         IO.println("""
                 Sort by:
@@ -71,9 +69,13 @@ public class Main {
               ======== ========== ========
               ======== Uppgift 3: ========
               ======== ========== ========
-              
               """);
-
+        IO.println("""
+                Sort by:
+                1. In Stock | 2. Score(descending) | 3. Price(ascending)
+                """);
+        items.sort(new ItemPriorityComparator());
+        items.forEach(IO::println);
 
     }
 }
