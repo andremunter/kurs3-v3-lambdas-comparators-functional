@@ -148,6 +148,13 @@ public class Main {
               ======== ========== ========
               """);
 
+        IO.println("""
+              
+              ======== ========== ========
+              ======== Uppgift 5: ========
+              ======== ========== ========
+              """);
+
         Function<Item, String> nameToUpper = item -> new Item(
                 item.getId(),
                 item.getName().toUpperCase(),
