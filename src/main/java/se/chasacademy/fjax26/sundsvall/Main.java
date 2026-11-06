@@ -188,5 +188,13 @@ public class Main {
         List<String> receipts = OrderProcessor.processOrders(orders, filterPaidOnly, sortByDate, receiptFormatter);
         receipts.forEach(IO::println);
 
+        IO.println("""
+              
+              ======== ========== ========
+              ======== Uppgift 8: ========
+              ======== ========== ========
+              """);
+        IO.println("NO PRESENTATION: 'Demo' exists in `FunctionSearchEngineTest` and `ImperativeSearchEngineTest` ");
+
     }
 }
