@@ -170,5 +170,23 @@ public class Main {
                 .map(nameToUpper)
                 .execute(items, printItem);
 
+        IO.println("""
+              
+              ======== ========== ========
+              ======== Uppgift 7: ========
+              ======== ========== ========
+              """);
+
+        List<Order> orders = SampleData.getOrders();
+        Predicate<Order> filterPaidOnly = o -> o.getStatus() == Order.Status.PAID;
+        Comparator<Order> sortByDate = Comparator.comparing(Order::getOrderDate);
+        Function<Order, String> receiptFormatter = o -> String.format(
+                "[RECEIPT]: Amount %-7.1f | Date %s | Status %-5s | Customer %s",
+                o.getTotalAmount(), o.getOrderDate(), o.getStatus(), o.getCustomerName()
+        );
+
+        List<String> receipts = OrderProcessor.processOrders(orders, filterPaidOnly, sortByDate, receiptFormatter);
+        receipts.forEach(IO::println);
+
     }
 }
